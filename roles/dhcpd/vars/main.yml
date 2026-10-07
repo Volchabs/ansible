@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for dhcpd
+subnet: 192.168.56
+serveur_ip: 10
+domain: adsillh.local
+interface: enp0s16
+hwAddress: "52:54:00:12:34:02"
+hostname: alma-client
+

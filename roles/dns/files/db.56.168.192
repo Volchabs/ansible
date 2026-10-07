@@ -1,0 +1,13 @@
+; date file for zone adsillh.local
+$TTL 86400      ; 1 day
+@ IN SOA  adsillh.local. root.adsillh.local. (
+                                2024090101 ; serial
+                                10800      ; refresh (3 hours)
+                                3600       ; retry (1 hour)
+                                604800     ; expire (1 week)
+                                38400      ; minimum (10 hours 40 minutes)
+                                )
+@                       NS      alma-server.adsillh.local.
+10                      PTR     alma-server.adsillh.local.
+$TTL 3600       ; 1 hour
+

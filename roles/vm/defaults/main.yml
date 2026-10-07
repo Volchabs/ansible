@@ -1,0 +1,23 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for vm
+vm_dir: /local/yrouhier/vms
+iso: /local/AlmaLinux-10.2-x86_64-minimal.iso
+
+vms:
+  - name: alma1
+    hostname: alma-server
+    mac: "52:54:00:12:34:11"
+    ip: "192.168.56.10"
+    netmask: "255.255.255.0"
+    port: 2222
+    gateway: "192.168.56.1"
+    nameserver: "10.0.220.13"
+  - name: alma2
+    hostname: alma-client
+    mac: "52:54:00:12:34:21"
+    ip: "DHCP"
+    netmask: "DHCP"
+    port: 2224
+    gateway: "DHCP"
+    nameserver: "DHCP"

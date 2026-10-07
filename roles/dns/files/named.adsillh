@@ -1,0 +1,10 @@
+zone "adsillh.local" {
+  type master;
+  file "/var/named/data/db.adsillh.local";
+  allow-update { key rndc-key; };
+};
+zone "56.168.192.in-addr.arpa" {
+  type master;
+  file "/var/named/data/db.56.168.192";
+  allow-update { key rndc-key; };
+};

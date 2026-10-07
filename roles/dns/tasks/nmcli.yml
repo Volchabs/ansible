@@ -1,0 +1,16 @@
+- name: Ajout localhost dans resolv.conf
+  community.general.nmcli:
+    conn_name: enp0s16
+    type: ethernet
+    dns4:
+      - 127.0.0.1
+    state: present
+    conn_reload: true
+
+- name: Ignore dns de dhcp
+  community.general.nmcli:
+    conn_name: enp6s0 # XX : numéro interface Paast
+    type: ethernet
+    dns4_ignore_auto: true
+    state: present
+    conn_reload: true

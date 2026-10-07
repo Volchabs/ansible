@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for vm
+ks_args: "inst.text inst.ks=file:/ks.cfg inst.noninteractive"
+ip_args: >-
+      {{ 'console=ttyS0 ip=enp1s0:dhcp' if item.ip == 'DHCP'
+         else 'console=ttyS0,115200n8 ip=' ~ item.ip ~ ':::' ~ item.netmask ~ ':' ~ item.hostname ~ ':enp0s16:none' }}

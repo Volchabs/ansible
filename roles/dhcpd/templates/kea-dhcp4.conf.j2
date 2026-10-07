@@ -1,0 +1,44 @@
+{
+  "Dhcp4": {
+    "dhcp-ddns": {
+    "enable-updates": true
+    },
+    "ddns-qualifying-suffix": "{{ domain }}",
+    "ddns-override-client-update": true,
+    "valid-lifetime": 86400,
+    "option-data": [
+      {
+        "name": "domain-name",
+        "data": "{{ domain }}"
+      },
+      {
+        "name": "domain-name-servers",
+        "data": "{{ subnet }}.{{ serveur_ip }}"
+      }
+    ],
+
+    "interfaces-config": {
+      "interfaces": [ "{{ interface }}" ]
+    },
+    "subnet4": [
+      {
+        "id": 1,
+        "subnet": "{{ subnet }}.0/24",
+        "pools": [
+          { "pool": "{{ subnet }}.100  - {{ subnet }}.150" }
+        ],
+        "option-data": [
+          { "name": "routers", "data": "{{ subnet }}.1" }
+        ],
+        "reservations": [
+          {
+                "hw-address": "{{ hwAddress }}",
+                "ip-address": "{{ subnet }}.20",
+                "hostname": "{{ hostname }}"
+         }
+        ]
+      }
+    ]
+  }
+}
+

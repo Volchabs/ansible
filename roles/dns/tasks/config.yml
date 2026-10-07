@@ -1,0 +1,36 @@
+- name: Copie named.conf
+  ansible.builtin.template:
+    src: templates/named.j2
+    dest: /etc/named.conf
+    mode: "0644"
+    owner: root 
+    group: named
+  notify: Restart named
+
+- name: creation rndc.key
+  ansible.builtin.command: rndc-confgen -a
+  args:
+    creates: /etc/rndc.key
+    
+- name: copy config zone
+  ansible.builtin.copy:
+    src: files/named.adsillh
+    dest: /var/named/named.adsillh
+
+- name: copy zone
+  ansible.builtin.copy:
+    src: files/db.adsillh.local
+    dest: /var/named/data/db.adsillh.local
+    force: false # Seulement la première fois
+
+- name: copy reverse
+  ansible.builtin.copy:
+    src: files/db.56.168.192
+    dest: /var/named/data/db.56.168.192
+    force: false # Seulement la première fois
+
+- name: Relancer Bind
+  service:
+    name: named
+    state: started
+    enabled: yes

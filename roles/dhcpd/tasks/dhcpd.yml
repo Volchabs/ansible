@@ -1,0 +1,27 @@
+- name: Installer DHCPD
+  dnf:
+    name: kea
+    state: present
+    update_cache: yes
+
+- name: Configurer DHCPD
+  template:
+    src: kea-dhcp4.conf.j2
+    dest: /etc/kea/kea-dhcp4.conf
+  notify:
+    - Redémarrer DHCPD
+
+- name: Ouvrir DHCP
+  ansible.posix.firewalld:
+    service: dhcp
+    state: enabled
+    permanent: true
+    immediate: true
+    offline: true
+    zone: work
+
+- name: Démarrer DHCPD
+  service:
+    name: kea-dhcp4
+    state: started
+    enabled: yes

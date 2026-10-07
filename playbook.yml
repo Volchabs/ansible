@@ -1,0 +1,28 @@
+- name: Mise en place VMs
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tags: virt
+  roles:
+    - vm
+
+- name: Prérequis pour selinux
+  hosts: serveur
+  become: true
+  tasks:
+    - package:
+        name: python3-libsemanage
+        state: present
+    - ansible.posix.firewalld:
+        state: enabled
+        permanent: true
+        interface: enp0s16
+        zone: work
+- name: Configurer le serveur dhcp
+  hosts: serveur
+  become: true
+  roles:
+    - dns
+    - dhcpd
+
+

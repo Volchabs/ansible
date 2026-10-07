@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for dns
+subnet: 192.168.56
+serveur_ip: 10
+listen_port: 53
+forwarders: 10.0.7.254;

@@ -1,0 +1,10 @@
+all:
+  children:
+    hosts:
+      hosts:
+        serveur:
+          ansible_host: 127.0.0.1
+          ansible_port: 2222
+          ansible_user: admin
+          # Si vous utilisez une clé SSH spécifique :
+          ansible_ssh_private_key_file: ~/.ssh/id_ed25519

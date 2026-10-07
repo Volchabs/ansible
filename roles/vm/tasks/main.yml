@@ -1,0 +1,52 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for roles/vm
+
+- name: Créer le dossier de la VM
+  ansible.builtin.file:
+    path: "{{ vm_dir }}/{{ item.name }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ vms }}"
+
+- name: copie ks.cfg
+  ansible.builtin.template:
+    src: ks.cfg.j2
+    dest: "{{ vm_dir }}/{{ item.name }}/ks.cfg"
+    mode: "0600"
+    owner: yrouhier
+  loop: "{{ vms }}"
+
+- name: create VM virrt
+  ansible.builtin.command:
+    argv:
+      - virt-install
+      - "--connect=qemu:///session"
+      - "--name={{ item.name }}"
+      - "--memory=4096"
+      - "--vcpus=2"
+      - "--disk=path={{ vm_dir }}/{{ item.name }}/{{ item.name }}.qcow2,size=15"
+      - "--osinfo=almalinux10"
+      - "--location={{ iso }}"
+      - "--network=passt,portForward={{ item.port }}:22"
+      - "--qemu-commandline=-netdev vde,id=net0,sock=/local/yrouhier/vde/switch.ctl -device virtio-net-pci,netdev=net0,bus=pcie.0,addr=0x10,mac={{ item.mac }}"
+      - "--console=pty,target.type=serial"
+      - "--initrd-inject={{ vm_dir }}/{{ item.name }}/ks.cfg"
+      - "--extra-args={{ ks_args }} {{ ip_args }}"
+      - "--noautoconsole"
+      - "--wait=30"
+    creates: "{{ vm_dir }}/{{ item.name }}/{{ item.name }}.qcow2"
+  loop: "{{ vms }}"
+  loop_control:
+    label: "{{ item.name }}"
+  register: vm_create
+
+- name: Démarrer la VM
+  community.libvirt.virt:
+    uri: qemu:///session
+    name: "{{ item.name }}"
+    state: running
+  loop: "{{ vms }}"
+  loop_control:
+    label: "{{ item.name }}"
+

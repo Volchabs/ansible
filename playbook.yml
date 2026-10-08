@@ -25,4 +25,10 @@
     - dns
     - dhcpd
 
+- name: Configurer le serveur mail
+  hosts: serveur
+  become: true
+  roles: 
+    - mail
+
 

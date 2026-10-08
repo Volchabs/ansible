@@ -1,0 +1,47 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for mail
+- name: Activation des services dans la zone public
+  ansible.posix.firewalld:
+      zone: public
+      service: "{{ item }}"
+      state: enabled
+      permanent: true
+      immediate: true
+      offline: true
+  loop: "{{ services }}"
+
+- name: Activation des services dans la zone work
+  ansible.posix.firewalld:
+      zone: work
+      service: "{{ item }}"
+      state: enabled
+      permanent: true
+      immediate: true
+      offline: true
+  loop: "{{ services }}"
+
+- name: Installation de postfix
+  ansible.builtin.dnf:
+    name: postfix
+    state: latest
+
+- name: copie postfix/main.cf
+  ansible.builtin.template:
+      src: main.cf.j2
+      dest: "/etc/postfix/main.cf"
+      mode: "0644"
+      owner: root
+
+- name: copie postfix/virtual
+  ansible.builtin.template:
+      src: virtual.j2
+      dest: "/etc/postfix/virtual"
+      mode: "0644"
+      owner: root
+
+- name: maj postfix/virtual.db
+  ansible.builtin.command: postmap /etc/postfix/virtual
+
+- name: activation postfix
+  ansible.builtin.command: systemctl enable --now postfix

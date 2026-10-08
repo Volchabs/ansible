@@ -10,3 +10,9 @@ $TTL 86400      ; 1 day
 $TTL 3600       ; 1 hour
 @                    NS      alma-server
 alma-server          A       192.168.56.10
+@	MX	10		alma-server		  
+smtp    CNAME   alma-server
+imap    CNAME   alma-server
+pop3    CNAME   alma-server
+@       TXT     "v=spf1 ip4:192.168.56.0/24 ~all"
+

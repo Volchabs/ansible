@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# vars file for mail
+subnet: 192.168.56.0/24
+localhostV4: 127.0.0.0/8
+localhostV6: "[::1]/128"
+
+
+services:
+  - smtp
+  - smtps
+  - imaps
+  - pop3s
+  - smtp-submission
+  - pop3
+
+

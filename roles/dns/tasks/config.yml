@@ -11,7 +11,13 @@
   ansible.builtin.command: rndc-confgen -a
   args:
     creates: /etc/rndc.key
-    
+
+- name: change rndc.key mode
+  ansible.builtin.file:
+    path: /etc/rndc.key
+    mode: "0644"
+    owner: root
+        
 - name: copy config zone
   ansible.builtin.copy:
     src: files/named.adsillh
